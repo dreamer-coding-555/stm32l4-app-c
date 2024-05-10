@@ -10,7 +10,7 @@ cpp_args = [
     '-mfloat-abi=soft',
     '-DSTM32L475xx']
 link_args = [
-    '-TSTM32L475VGTX_FLASH.ld',
+    '-Tdata/STM32L475VGTX_FLASH.ld',
     '--specs=nosys.specs',
     '-nostartfiles',
     '-Wl,--gc-sections']
