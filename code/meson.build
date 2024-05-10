@@ -1,5 +1,5 @@
 dir = include_directories('.')
-code = files('system.c', 'syscalss.c')
+code = files('system.c', 'syscalls.c')
 
 executable('firmware.elf',
     sources: ['main.c', code],
