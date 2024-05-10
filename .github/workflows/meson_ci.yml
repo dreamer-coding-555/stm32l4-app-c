@@ -54,7 +54,7 @@ jobs:
           brew install qemu-efi-aarch64
           brew install qemu-system-arm
       - name: Configure
-        run: meson setup builddir -Dwith_test=enabled --cross-file=data/stm32l475.cross
+        run: meson setup builddir --cross-file=data/stm32l475.cross
       - name: Compile
         run: meson compile -C builddir
       - name: Run Tests
