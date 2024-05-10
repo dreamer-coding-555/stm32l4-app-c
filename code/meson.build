@@ -1,7 +1,7 @@
 dir = include_directories('.')
-code = files('app.c')
+code = files('syscalls.c', 'system.c')
 
-executable('app',
+executable('firmware.elf',
     sources: ['main.c', code],
     include_directories: dir,
     dependencies: deps,
