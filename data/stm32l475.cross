@@ -3,22 +3,17 @@ c_args = [
     '-mcpu=cortex-m4',
     '-mthumb',
     '-mfloat-abi=soft',
-    '-DSTM32L475xx'
-]
-
+    '-DSTM32L475xx']
 cpp_args = [
     '-mcpu=cortex-m4',
     '-mthumb',
     '-mfloat-abi=soft',
-    '-DSTM32L475xx'
-]
-
+    '-DSTM32L475xx']
 link_args = [
     '-TSTM32L475VGTX_FLASH.ld',
     '--specs=nosys.specs',
     '-nostartfiles',
-    '-Wl,--gc-sections'
-]
+    '-Wl,--gc-sections']
 
 [binaries]
 c = 'arm-none-eabi-gcc'
