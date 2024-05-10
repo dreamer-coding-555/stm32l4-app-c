@@ -1,0 +1,9 @@
+# ================ #
+#  FSCL Wrap File. #
+# ================ #
+[wrap-git]
+url = https://github.com/fossil-lib/fscl-xtool-c.git
+revision = main
+ 
+[provide]
+fscl-xtool-c = fscl_xtool_c_dep
