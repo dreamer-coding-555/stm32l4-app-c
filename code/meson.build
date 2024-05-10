@@ -21,6 +21,6 @@ if stm32flash.found()
     # Flash target if st-flash is found
     run_target('flash',
         command: [stm32flash, '--reset', 'write', '@INPUT@', '0x08000000'],
-        depends: ['bin']
+        depends: [bin]
     )
 endif
