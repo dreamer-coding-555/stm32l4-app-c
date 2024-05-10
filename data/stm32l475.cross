@@ -14,7 +14,7 @@ cpp_args = [
 ]
 
 link_args = [
-    '-T../stm32l475xx.ld',  # Adjust linker script path as per your project structure
+    '-TSTM32L475VGTX_FLASH.ld',
     '--specs=nosys.specs',
     '-nostartfiles',
     '-Wl,--gc-sections'
