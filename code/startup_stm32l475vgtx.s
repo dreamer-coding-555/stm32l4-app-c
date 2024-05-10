@@ -486,6 +486,59 @@ g_pfnVectors:
 	.weak	I2C4_ER_IRQHandler
 	.thumb_set I2C4_ER_IRQHandler,Default_Handler
 
-	.weak	SystemInit
+	.weak	USB_FS_IRQHandler
+	.thumb_set USB_FS_IRQHandler,Default_Handler
 
-/************************ (C) COPYRIGHT STMicroelectonics *****END OF FILE****/
+	.weak	0x000001b8
+	.thumb_set 0x000001b8,Default_Handler
+
+	.weak	0x000001bc
+	.thumb_set 0x000001bc,Default_Handler
+
+	.weak	0x000001c0
+	.thumb_set 0x000001c0,Default_Handler
+
+	.weak	0x000001c4
+	.thumb_set 0x000001c4,Default_Handler
+
+	.weak	0x000001c8
+	.thumb_set 0x000001c8,Default_Handler
+
+	.weak	0x000001cc
+	.thumb_set 0x000001cc,Default_Handler
+
+	.weak	0x000001d0
+	.thumb_set 0x000001d0,Default_Handler
+
+	.weak	0x000001d4
+	.thumb_set 0x000001d4,Default_Handler
+
+	.weak	0x000001d8
+	.thumb_set 0x000001d8,Default_Handler
+
+	.weak	0x000001dc
+	.thumb_set 0x000001dc,Default_Handler
+
+	.weak	USB_HP_IRQHandler
+	.thumb_set USB_HP_IRQHandler,Default_Handler
+
+	.weak	0x000001e4
+	.thumb_set 0x000001e4,Default_Handler
+
+	.weak	0x000001e8
+	.thumb_set 0x000001e8,Default_Handler
+
+	.weak	0x000001ec
+	.thumb_set 0x000001ec,Default_Handler
+
+	.weak	0x000001f0
+	.thumb_set 0x000001f0,Default_Handler
+
+	.weak	0x000001f4
+	.thumb_set 0x000001f4,Default_Handler
+
+	.weak	0x000001f8
+	.thumb_set 0x000001f8,Default_Handler
+
+	.weak	0x000001fc
+	.thumb_set 0x000001fc,Default_Handler
