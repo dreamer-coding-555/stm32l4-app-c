@@ -1,9 +1,9 @@
 [properties]
 c_args = [
-    '-mcpu=cortex-m4',  # Change to cortex-m4 for STM32L4 series
-    '-mthumb',          # Ensure Thumb mode
-    '-mfloat-abi=soft', # Adjust floating point ABI if necessary
-    '-DSTM32L475xx'     # Define target MCU type
+    '-mcpu=cortex-m4',
+    '-mthumb',
+    '-mfloat-abi=soft',
+    '-DSTM32L475xx'
 ]
 
 cpp_args = [
@@ -21,10 +21,10 @@ link_args = [
 ]
 
 [binaries]
-c = 'arm-none-eabi-gcc'    # Adjust compiler as per your toolchain
-cpp = 'arm-none-eabi-g++'  # Adjust compiler as per your toolchain
-ar = 'arm-none-eabi-ar'    # Adjust archiver as per your toolchain
-ld = 'arm-none-eabi-gcc'   # Adjust linker as per your toolchain
+c = 'arm-none-eabi-gcc'
+cpp = 'arm-none-eabi-g++'
+ar = 'arm-none-eabi-ar'
+ld = 'arm-none-eabi-gcc'
 
 [target_machine]
 system = 'stm32'
