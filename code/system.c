@@ -17,6 +17,8 @@ Description:
 /**
  * Pointer to the current high watermark of the heap usage
  */
+extern uint32_t _estack;
+extern uint32_t _Min_Stack_Size;
 static uint8_t *__sbrk_heap_end = NULL;
 
 /**
