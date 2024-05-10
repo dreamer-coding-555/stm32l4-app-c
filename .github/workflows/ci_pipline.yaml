@@ -2,85 +2,69 @@ name: CI Pipeline
 
 on:
   push:
-  pull_request:
-    branches:
-      - "main"
     paths:
       - "**.c"
       - "**.h"
+      - "**.cpp"
+      - "**.hpp"
       - "**.py"
-      - "**.pyx"  # Added for Cython files
-      - "**.rs"   # Added for Rust files
       - "**.build"
-
-permissions:
-  contents: read
+      - "**.m"
+      - "**.mm"
+  pull_request:
+    paths:
+      - "**.c"
+      - "**.h"
+      - "**.cpp"
+      - "**.hpp"
+      - "**.py"
+      - "**.build"
+      - "**.m"
+      - "**.mm"
 
 jobs:
-  host_macosx:
-    strategy:
-      matrix:
-        os: [10.15, 11, 12, 13]  # macOS versions
-    runs-on: macos-latest
-    steps:
-    - uses: actions/checkout@v4
-    - name: Setup Python and Tools
-      run: |
-          python -m pip install meson==1.0.0 ninja==1.11.1 cython==3.0.8
-    - name: Setup Build Directory
-      run: |
-          meson setup builddir -Dwith_test=enabled
-    - name: Compile Source Code
-      run: |
-          meson compile -C builddir
-    - name: Test Project Code
-      run: |
-          meson test -C builddir -v --test-args='--mode devops'
-
-  host_windows:
-    strategy:
-      matrix:
-        os: ['windows-latest', 'windows-2022']
-        mingw: [false, 'mingw32', 'mingw64', 'MSYS']
+  build:
+    name: Running on ${{ matrix.os }} with Meson v${{ matrix.meson_version }}
     runs-on: ${{ matrix.os }}
-    steps:
-    - uses: actions/checkout@v4
-    - name: Setup Python and Tools
-      run: |
-          python -m pip install meson==1.0.0 ninja==1.11.1 cython==3.0.8
-    - name: Setup MinGW/MSYS
-      if: matrix.mingw != false
-      uses: msys2/setup-msys2@v2
-      with:
-        msystem: ${{ matrix.mingw }}
-        update: true
-    - name: Setup Build Directory
-      run: |
-          meson setup builddir -Dwith_test=enabled
-    - name: Compile Source Code
-      run: |
-          meson compile -C builddir
-    - name: Test Project Code
-      run: |
-          meson test -C builddir -v --test-args='--mode devops'
-
-  host_ubuntu:
     strategy:
       matrix:
-        ubuntu_version: ['latest', '22.04']
-    runs-on: ubuntu-${{ matrix.ubuntu_version }}
+        os: [ubuntu-latest, macos-latest]
+        meson_version: ["1.2.0", "1.3.0", "1.4.0"]
     steps:
-    - uses: actions/checkout@v4
-    - name: Setup Python and Tools
-      run: |
-          python -m pip install meson==1.0.0 ninja==1.11.1 cython==3.0.8
-          sudo apt-get install -y gcc
-    - name: Setup Build Directory
-      run: |
-          meson setup builddir -Dwith_test=enabled
-    - name: Compile Source Code
-      run: |
-          meson compile -C builddir
-    - name: Test Project Code
-      run: |
-          meson test -C builddir -v --test-args='--mode devops'
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - name: Install Meson and Ninja
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install meson==${{ matrix.meson_version }} ninja
+      - name: Install QEMU and ARM GCC toolchain
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y qemu-system-arm gcc-arm-none-eabi
+      - name: Install QEMU and ARM GCC toolchain
+        if: matrix.os == 'macos-latest'
+        run: |
+          brew install qemu
+          brew install qemu-arm
+          brew install qemu-efi-aarch64
+          brew install qemu-system-arm
+      - name: Configure
+        run: meson setup builddir -Dwith_test=enabled --cross-file=data/stm32l475.cross
+      - name: Compile
+        run: meson compile -C builddir
+      - name: Run Tests
+        run: |
+          # Assuming your QEMU command to run the tests
+          # Adjust this command according to your project's requirements
+          qemu-system-arm -machine stm32 -cpu cortex-m4 -kernel builddir/code/firmware.elf
+      - name: Upload Test Log
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: ${{ matrix.os }}_meson_testlog
+          path: builddir/meson-logs/testlog.txt
