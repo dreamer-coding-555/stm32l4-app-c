@@ -1,7 +1,7 @@
 dir = include_directories('.')
 code = files('system.c', 'syscalls.c')
 
-executable('firmware.elf',
+exe = executable('firmware.elf',
     sources: ['main.c', code],
     include_directories: dir,
     # dependencies: deps, # temp comment for later test with STM32 wrap file packages
@@ -9,11 +9,11 @@ executable('firmware.elf',
 
 # Custom target to generate binary file
 bin = custom_target('bin',
-    input: firmware_exe,
+    input: exe,
     output: 'firmware.bin',
     command: [find_program('objcopy'), '-O', 'binary', '@INPUT@', '@OUTPUT@'],
     build_by_default: true,
-    depends: [firmware_exe]
+    depends: [exe]
 )
 
 stm32flash = find_program('st-flash', required: false)
