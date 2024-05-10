@@ -2,7 +2,7 @@ dir = include_directories('.')
 code = files('system.c', 'syscalls.c')
 
 exe = executable('firmware.elf',
-    sources: ['main.c', code],
+    sources: ['main.c', code, 'startup_stm32l475vgtx.s'],
     include_directories: dir,
     # dependencies: deps, # temp comment for later test with STM32 wrap file packages
     install: true)
