@@ -9,18 +9,24 @@ executable('firmware.elf',
 
 # Custom target to generate binary file
 bin = custom_target('bin',
-    input: 'firmware.elf',
+    input: firmware_exe,
     output: 'firmware.bin',
     command: [find_program('objcopy'), '-O', 'binary', '@INPUT@', '@OUTPUT@'],
     build_by_default: true,
-    depends: ['firmware.elf']
+    depends: [firmware_exe]
 )
 
 stm32flash = find_program('st-flash', required: false)
 if stm32flash.found()
     # Flash target if st-flash is found
-    run_target('flash',
-        command: [stm32flash, '--reset', 'write', '@INPUT@', '0x08000000'],
+    run_target(
+        'flash',
+        command: [
+            stm32flash,
+            '--reset',
+            'write', '@INPUT@',
+            '0x08000000',
+        ],
         depends: [bin]
     )
 endif
